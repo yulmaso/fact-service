@@ -15,7 +15,7 @@ class GreetingServiceImpl: GreetingService {
 
     override fun getById(id: Long): Greeting = repository!!.getOne(id)
 
-    override fun save(greeting: Greeting): Greeting = repository!!.saveAndFlush(greeting)
+    override fun save(item: Greeting): Greeting = repository!!.saveAndFlush(item)
 
     override fun remove(id: Long) = repository!!.deleteById(id)
 }

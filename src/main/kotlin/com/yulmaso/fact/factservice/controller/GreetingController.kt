@@ -7,25 +7,22 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
 @RestController
+@RequestMapping("/greetings")
 class GreetingController {
 
     @Autowired
     var service: GreetingService? = null
 
-    @GetMapping("/greetings")
-    @ResponseBody
+    @GetMapping
     fun getAllGreetings(): List<Greeting> = service!!.getAll()
 
-    @GetMapping("/greetings/{id}")
-    @ResponseBody
+    @GetMapping("/{id}")
     fun getGreeting(@PathVariable("id") id: Long) = service!!.getById(id)
 
-    @PostMapping("/greetings")
-    @ResponseBody
+    @PostMapping()
     fun saveGreeting(@RequestBody greeting: Greeting) = service!!.save(greeting)
 
-    @DeleteMapping("/greetings/{id}")
-    @ResponseBody
+    @DeleteMapping("/remove/{id}")
     fun removeGreeting(@PathVariable("id") id: Long) = service!!.remove(id)
 
 }
