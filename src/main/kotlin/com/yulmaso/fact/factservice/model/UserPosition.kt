@@ -13,6 +13,6 @@ class UserPosition {
     @Id
     var position: Position? = null
 
-    @OneToMany
+    @ManyToMany
     var horseAccesses: List<HorseAccess>? = null
 }

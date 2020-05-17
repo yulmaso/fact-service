@@ -13,16 +13,16 @@ class GreetingController {
     @Autowired
     var service: GreetingService? = null
 
-    @GetMapping
+    @GetMapping("/user")
     fun getAllGreetings(): List<Greeting> = service!!.getAll()
 
-    @GetMapping("/{id}")
+    @GetMapping("/user/{id}")
     fun getGreeting(@PathVariable("id") id: Long) = service!!.getById(id)
 
-    @PostMapping()
+    @PostMapping("/user")
     fun saveGreeting(@RequestBody greeting: Greeting) = service!!.save(greeting)
 
-    @DeleteMapping("/remove/{id}")
+    @DeleteMapping("/admin/remove/{id}")
     fun removeGreeting(@PathVariable("id") id: Long) = service!!.remove(id)
 
 }

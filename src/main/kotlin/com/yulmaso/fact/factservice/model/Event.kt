@@ -1,6 +1,6 @@
 package com.yulmaso.fact.factservice.model
 
-import com.yulmaso.fact.factservice.model.enums.Event
+import com.yulmaso.fact.factservice.model.enums.EventType
 import org.hibernate.annotations.GenericGenerator
 import java.util.*
 import javax.persistence.*
@@ -21,10 +21,10 @@ class Event {
     @JoinColumn(name = "trainer", nullable = false)
     var trainer: User? = null
 
-    @Column(name = "startTime", nullable = false)
+    @Column(name = "start_time", nullable = false)
     var startTime: Calendar? = null
 
-    @Column(name = "endTime", nullable = false)
+    @Column(name = "end_time", nullable = false)
     var endTime: Calendar? = null
 
     @Column(name = "enabled", nullable = true)
@@ -32,5 +32,5 @@ class Event {
 
     @Column(name = "event_type", nullable = false)
     @Enumerated(EnumType.STRING)
-    var eventType: Event? = null
+    var eventType: EventType? = null
 }

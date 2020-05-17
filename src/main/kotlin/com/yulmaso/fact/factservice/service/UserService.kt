@@ -1,23 +1,21 @@
 package com.yulmaso.fact.factservice.service
 
-import com.yulmaso.fact.factservice.model.enums.Role
 import com.yulmaso.fact.factservice.model.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
-import org.springframework.stereotype.Service
+import org.springframework.security.core.userdetails.UsernameNotFoundException
+import java.util.*
 
-@Service
 interface UserService: UserDetailsService, BasicService<User, Long> {
 
-    override fun loadUserByUsername(p0: String?): UserDetails {
-        return User.builder()
-                .username(p0!!)
-                .password("password")
-                .authority(Role.ADMIN)
-                .enabled(true)
-                .accountNonExpired(true)
-                .accountNonLocked(true)
-                .credentialsNonExpired(true)
-                .build()
+    @Throws(UsernameNotFoundException::class)
+    override fun loadUserByUsername(username: String?): UserDetails {
+        val user = getByUsername(username!!)
+        user.orElseThrow{UsernameNotFoundException("There's no user $username")}
+        user.ifPresent { println("------------ User's role: ${it.authority?.authority}") }
+        return user.get()
     }
+
+
+    fun getByUsername(username: String): Optional<User>
 }

@@ -4,6 +4,7 @@ import com.yulmaso.fact.factservice.model.Event
 import com.yulmaso.fact.factservice.model.User
 import com.yulmaso.fact.factservice.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -21,6 +22,7 @@ class UserController {
     @PostMapping
     fun saveUser(@RequestBody item: User) = service!!.save(item)
 
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("/remove/{id}")
     fun removeUser(@PathVariable("id") id: Long) = service!!.remove(id)
 }

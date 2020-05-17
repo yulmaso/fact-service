@@ -1,9 +1,12 @@
-package com.yulmaso.fact.factservice.service
+package com.yulmaso.fact.factservice.service.impl
 
 import com.yulmaso.fact.factservice.model.Vaccination
 import com.yulmaso.fact.factservice.repository.VaccinationRepository
+import com.yulmaso.fact.factservice.service.VaccinationService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 
+@Service
 class VaccinationServiceImpl: VaccinationService {
     @Autowired
     private var repository: VaccinationRepository? = null

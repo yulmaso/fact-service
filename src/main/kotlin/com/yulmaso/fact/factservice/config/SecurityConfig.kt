@@ -1,47 +1,51 @@
 package com.yulmaso.fact.factservice.config
 
+import com.yulmaso.fact.factservice.jwt.JwtRequestFilter
+import com.yulmaso.fact.factservice.model.enums.Role
+import com.yulmaso.fact.factservice.service.UserService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import org.springframework.security.core.userdetails.User
-import org.springframework.security.core.userdetails.UserDetailsService
-import org.springframework.security.provisioning.InMemoryUserDetailsManager
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher
+import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.crypto.password.NoOpPasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
 @EnableWebSecurity
 class SecurityConfig: WebSecurityConfigurerAdapter() {
 
-//    @Autowired
-//    private var userService: UserService? = null
+    @Autowired
+    private var userService: UserService? = null
+
+    @Autowired
+    private var jwtRequestFilter: JwtRequestFilter? = null
+
+    override fun configure(auth: AuthenticationManagerBuilder?) {
+        auth?.userDetailsService(userService)
+    }
 
     override fun configure(http: HttpSecurity?) {
         http!!
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
-                .anyRequest().authenticated()
+                    .antMatchers("/authenticate*").permitAll()
+                    .antMatchers("/*").denyAll()
+                    .anyRequest().authenticated()
+                    .and()
+                .exceptionHandling()
                 .and()
-                .formLogin().defaultSuccessUrl("/greetings", true).permitAll()
-                .and()
-                .logout().logoutRequestMatcher(AntPathRequestMatcher("/logout")).permitAll()
-    }
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-//    @Autowired
-//    fun configureGlobal(auth: AuthenticationManagerBuilder) {
-//        auth.userDetailsService(userService)
-//    }
+        http
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter::class.java)
+    }
 
     @Bean
-    override fun userDetailsService(): UserDetailsService {
-        val userDetails = User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("password")
-                .roles("USER")
-                .build()
-        return InMemoryUserDetailsManager(userDetails)
-    }
+    fun passwordEncoder(): PasswordEncoder = NoOpPasswordEncoder.getInstance()
 
 }

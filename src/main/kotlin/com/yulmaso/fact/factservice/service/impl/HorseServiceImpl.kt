@@ -1,10 +1,12 @@
-package com.yulmaso.fact.factservice.service
+package com.yulmaso.fact.factservice.service.impl
 
 import com.yulmaso.fact.factservice.model.Horse
-import com.yulmaso.fact.factservice.model.Stable
 import com.yulmaso.fact.factservice.repository.HorseRepository
+import com.yulmaso.fact.factservice.service.HorseService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 
+@Service
 class HorseServiceImpl: HorseService {
     @Autowired
     private var repository: HorseRepository? = null

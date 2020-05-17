@@ -12,6 +12,6 @@ class HorseAccess {
     @Id
     var user: User? = null
 
-    @ManyToOne
-    var userPosition: UserPosition? = null
+    @ManyToMany
+    var userPosition: List<UserPosition>? = null
 }

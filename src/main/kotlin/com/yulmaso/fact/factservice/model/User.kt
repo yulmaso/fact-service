@@ -16,12 +16,17 @@ class User : UserDetails {
 
     @Column(name = "authorities", nullable = false)
     @Enumerated(EnumType.STRING)
-    private var authority: Role? = null
+    var authority: Role? = null
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "username", nullable = false, unique = true)
     private var username: String? = null
-    @Column(nullable = false)
+    @Column(name = "password", nullable = false)
     private var password: String? = null
+
+    @Column(name="realname", nullable = false)
+    private var realname: String? = null
+    @Column(name="phone", nullable = true, unique = true)
+    private var phone: Int? = null
 
     private var enabled: Boolean? = null
     private var accountNonExpired: Boolean? = null
@@ -36,6 +41,9 @@ class User : UserDetails {
 
     @OneToMany
     var events: List<Event>? = null
+
+    @OneToMany
+    var horseAccess: List<HorseAccess>? = null
 
     constructor(id: Long?, authority: Role?, username: String?, password: String?, enabled: Boolean?, accountNonExpired: Boolean?, accountNonLocked: Boolean?, credentialsNonExpired: Boolean?) {
         this.id = id
@@ -64,7 +72,7 @@ class User : UserDetails {
 
     override fun isAccountNonLocked(): Boolean = accountNonLocked!!
 
-    data class builder(
+    class Builder(
             private var id: Long? = null,
             private var authority: Role? = null,
             private var username: String? = null,

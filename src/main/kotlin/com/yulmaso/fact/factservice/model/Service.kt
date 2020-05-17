@@ -15,7 +15,7 @@ class Service {
     var name: String? = null
 
     @Column(name = "price", nullable = false)
-    var price: Int? = null
+    var price: Int? = null //цена в день
 
     @OneToMany
     var horseServices: MutableList<HorseService>? = null
