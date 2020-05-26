@@ -2,5 +2,5 @@
 
 **Used technologies:**
 - Spring Boot
-- PostgreSQL
 - Hibernate
+- PostgreSQL
